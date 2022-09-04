@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "nextdns-prometheus-exporter"
 version = "0.1.0"
-description = "Prometheus Exporter for NextDNS.io"
+description = "Prometheus Exporter for NextDNS"
 authors = ["Mark Mercado <mamercad@gmail.com>"]
 license = "UNLICENSE"
 
