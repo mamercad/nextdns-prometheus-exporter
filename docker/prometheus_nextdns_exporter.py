@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import os
+from datetime import datetime
+import logging
 import time
 import requests
 from prometheus_client import start_http_server, Gauge
@@ -55,11 +57,16 @@ class NextDNS:
             if status == "blocked":
                 self.gauge_blocked_queries.set(queries)
 
+        return req_json
+
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
 
     EXPORTER_PORT = int(os.getenv("EXPORTER_PORT", "8000"))
     POLLING_INTERVAL = int(os.getenv("POLLING_INTERVAL", "60"))
+    METRICS_FROM = os.getenv("METRICS_FROM", "-1d")
+    METRICS_TO  = os.getenv("METRICS_TO", "now")
 
     nextdns = NextDNS(
         api_key=os.getenv("NEXTDNS_API_KEY"),
@@ -68,5 +75,6 @@ if __name__ == "__main__":
 
     start_http_server(port=EXPORTER_PORT, addr="0.0.0.0")
     while True:
-        nextdns.analytics_status()
+        json = nextdns.analytics_status(p_from=METRICS_FROM, p_to=METRICS_TO)
+        logging.info("%s:%s", datetime.now(), json)
         time.sleep(POLLING_INTERVAL)
