@@ -68,6 +68,5 @@ if __name__ == "__main__":
 
     start_http_server(port=EXPORTER_PORT, addr="0.0.0.0")
     while True:
-        print("hello world")
         nextdns.analytics_status()
         time.sleep(POLLING_INTERVAL)
