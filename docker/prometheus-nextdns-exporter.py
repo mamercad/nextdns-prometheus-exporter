@@ -4,7 +4,6 @@ import os
 import time
 import requests
 from prometheus_client import start_http_server, Gauge
-from tomlkit import value
 
 
 class NextDNS:
@@ -59,15 +58,16 @@ class NextDNS:
 
 if __name__ == "__main__":
 
-    SERVER_PORT = int(os.getenv("SERVER_PORT", "8000"))
-    SLEEP_INTERVAL = int(os.getenv("SLEEP_INTERVAL", "60"))
+    EXPORTER_PORT = int(os.getenv("EXPORTER_PORT", "8000"))
+    POLLING_INTERVAL = int(os.getenv("POLLING_INTERVAL", "60"))
 
     nextdns = NextDNS(
         api_key=os.getenv("NEXTDNS_API_KEY"),
         profile=os.getenv("NEXTDNS_PROFILE"),
     )
 
-    start_http_server(SERVER_PORT)
+    start_http_server(port=EXPORTER_PORT, addr="0.0.0.0")
     while True:
+        print("hello world")
         nextdns.analytics_status()
-        time.sleep(SLEEP_INTERVAL)
+        time.sleep(POLLING_INTERVAL)
