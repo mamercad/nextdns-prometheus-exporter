@@ -13,13 +13,13 @@ class NextDNS:
         self.api_key = api_key
         self.profile = profile
         self.gauge_total_queries = Gauge(
-            name="total_queries", documentation="Total queries"
+            name="nextdns_total_queries", documentation="Total queries"
         )
         self.gauge_allowed_queries = Gauge(
-            name="allowed_queries", documentation="Allowed queries"
+            name="nextdns_allowed_queries", documentation="Allowed queries"
         )
         self.gauge_blocked_queries = Gauge(
-            name="blocked_queries", documentation="Blocked queries"
+            name="nextdns_blocked_queries", documentation="Blocked queries"
         )
 
     def analytics_status(self, p_from: str = "-1d", p_to: str = "now"):
