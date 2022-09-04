@@ -36,6 +36,10 @@ spec:
               value: "8000"
             - name: POLLING_INTERVAL
               value: "60"
+            - name: METRICS_FROM
+              value: "-1h"
+            - name: METRICS_TO
+              value: "now"
           ports:
             - containerPort: 8000
               name: prom-metrics
