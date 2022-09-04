@@ -13,13 +13,13 @@ class NextDNS:
         self.api_key = api_key
         self.profile = profile
         self.gauge_total_queries = Gauge(
-            name="total_queries", documentation=f"Total queries"
+            name="total_queries", documentation="Total queries"
         )
         self.gauge_allowed_queries = Gauge(
-            name="allowed_queries", documentation=f"Allowed queries"
+            name="allowed_queries", documentation="Allowed queries"
         )
         self.gauge_blocked_queries = Gauge(
-            name="blocked_queries", documentation=f"Blocked queries"
+            name="blocked_queries", documentation="Blocked queries"
         )
 
     def analytics_status(self, p_from: str = "-1d", p_to: str = "now"):
@@ -34,6 +34,7 @@ class NextDNS:
             headers=headers,
             url=f"https://api.nextdns.io/profiles/{self.profile}/analytics/status",
             params=params,
+            timeout=10,
         )
         if not req.ok:
             raise RuntimeError(f"req not ok {req.status_code}")
@@ -66,7 +67,7 @@ if __name__ == "__main__":
     EXPORTER_PORT = int(os.getenv("EXPORTER_PORT", "8000"))
     POLLING_INTERVAL = int(os.getenv("POLLING_INTERVAL", "60"))
     METRICS_FROM = os.getenv("METRICS_FROM", "-1d")
-    METRICS_TO  = os.getenv("METRICS_TO", "now")
+    METRICS_TO = os.getenv("METRICS_TO", "now")
 
     nextdns = NextDNS(
         api_key=os.getenv("NEXTDNS_API_KEY"),
