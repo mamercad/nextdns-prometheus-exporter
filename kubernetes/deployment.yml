@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextdns-exporter
+  namespace: nextdns
+  labels:
+    app.kubernetes.io/name: nextdns-exporter
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nextdns-exporter
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: nextdns-exporter
+    spec:
+      containers:
+        - name: nextdns-prometheus-exporter
+          image: ghcr.io/mamercad/nextdns-prometheus-exporter:devel
+          imagePullPolicy: Always
+          env:
+            - name: NEXTDNS_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: nextdns-secret
+                  key: NEXTDNS_API_KEY
+            - name: NEXTDNS_PROFILE
+              valueFrom:
+                secretKeyRef:
+                  name: nextdns-secret
+                  key: NEXTDNS_PROFILE
+            - name: EXPORTER_PORT
+              value: "8000"
+            - name: POLLING_INTERVAL
+              value: "60"
+          ports:
+            - containerPort: 8000
+              name: prom-metrics
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
