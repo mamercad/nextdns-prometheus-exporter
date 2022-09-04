@@ -1,7 +1,7 @@
 FROM python:3.9-slim
-COPY prometheus-nextdns-exporter.py /
+COPY prometheus_nextdns_exporter.py /
 COPY requirements.txt /
 RUN pip install --upgrade pip \
-    && pip3 install -r requirements.txt
+    && pip3 install --requirement requirements.txt
 ENTRYPOINT [ "python3" ]
-CMD [ "prometheus-nextdns-exporter.py" ]
+CMD [ "prometheus_nextdns_exporter.py" ]

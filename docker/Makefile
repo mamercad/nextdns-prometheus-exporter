@@ -1,13 +1,24 @@
+IMAGE = ghcr.io/mamercad/nextdns-prometheus-exporter:devel
+
 .PHONY: requirements
 requirements:
-	poetry export -f requirements.txt --output requirements.txt --without-hashes
+	poetry export \
+		--format requirements.txt \
+		--output requirements.txt \
+		--without-hashes
 
 .PHONY: build
 build:
-	docker build -t ghcr.io/mamercad/nextdns-prometheus-exporter:devel .
+	docker build \
+		--tag $(IMAGE) .
 
 .PHONY: run
 run:
-	docker run --rm -it -p 8000:8000/tcp \
-		-e NEXTDNS_API_KEY -e NEXTDNS_PROFILE \
-		ghcr.io/mamercad/nextdns-prometheus-exporter:devel
+	docker run \
+		--rm --interactive --tty \
+		--publish 8000:8000/tcp \
+		--env NEXTDNS_API_KEY \
+		--env NEXTDNS_PROFILE \
+		--env METRICS_FROM="-1h" \
+		--env METRICS_TO="now" \
+		$(IMAGE)
