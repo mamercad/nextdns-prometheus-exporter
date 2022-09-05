@@ -1,4 +1,4 @@
-# Prometheus Exporter for [NextDNS](https://nexdns.io)
+# [Prometheus](https://prometheus.io) Exporter for [NextDNS](https://nexdns.io)
 
 [![docker-image](https://github.com/mamercad/nextdns-prometheus-exporter/actions/workflows/docker-image.yml/badge.svg)](https://github.com/mamercad/nextdns-prometheus-exporter/actions/workflows/docker-image.yml)
 
