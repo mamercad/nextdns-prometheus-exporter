@@ -4,7 +4,7 @@
 
 [Prometheus](https://prometheus.io) metrics of your [NextDNS](https://nexdns.io) data.
 
-There's Docker stuff [here](./docker) and Kubernetes stuff [here](./kubernetes).
+There's Docker stuff [here](./docker), Kubernetes stuff [here](./kubernetes), and SystemD stuff [here](./systemd).
 
 It behaves like this:
 

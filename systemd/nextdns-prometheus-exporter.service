@@ -1,0 +1,17 @@
+[Unit]
+Description=Prometheus Exporter for NextDNS
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=nobody
+Group=nobody
+Environment=NEXTDNS_API_KEY=hunter2
+Environment=NEXTDNS_PROFILE=hunter2
+ExecStart=/usr/local/bin/prometheus_nextdns_exporter.py
+
+[Install]
+WantedBy=multi-user.target
