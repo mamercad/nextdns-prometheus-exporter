@@ -15,4 +15,4 @@ nextdns_allowed_queries 1258.0
 nextdns_blocked_queries 4527.0
 ```
 
-You'll need to set `$NEXTDNS_API_KEY` and `$NEXTDNS_PROFILE`, you can find information on the NextDNS API [here](https://nextdns.github.io/api/).
+You'll need to set `$NEXTDNS_API_KEY` and `$NEXTDNS_PROFILE`, you can find information on the NextDNS API [here](https://nextdns.github.io/api/). Optionally, you can suffix the environment variables with `_FILE` and point to a local file containing the desired value.

@@ -61,17 +61,36 @@ class NextDNS:
         return req_json
 
 
+def env_value(name, default=None):
+    """
+
+    Given the name of an env var key, returns the value inside the name with the
+    _FILE suffix (if it exists), otherwise returns the value of the named env
+    key.  If the key does not exists, returns the default value.
+
+    If the referenced file does not exist, will throws a FileNotFoundError.
+    """
+    envfile_key = f"{name}_FILE"
+    if envfile_key in os.environ:
+        with open(os.environ[envfile_key], "r") as envfile:
+            # read will return the string followed by a newline, which we don't want
+            # so we split and take the first line without the \n
+            return envfile.read().splitlines()[0]
+    else:
+        return os.getenv(name, default)
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
-    EXPORTER_PORT = int(os.getenv("EXPORTER_PORT", "8000"))
-    POLLING_INTERVAL = int(os.getenv("POLLING_INTERVAL", "60"))
-    METRICS_FROM = os.getenv("METRICS_FROM", "-1d")
-    METRICS_TO = os.getenv("METRICS_TO", "now")
+    EXPORTER_PORT = int(env_value("EXPORTER_PORT", "8000"))
+    POLLING_INTERVAL = int(env_value("POLLING_INTERVAL", "60"))
+    METRICS_FROM = env_value("METRICS_FROM", "-1d")
+    METRICS_TO = env_value("METRICS_TO", "now")
 
     nextdns = NextDNS(
-        api_key=os.getenv("NEXTDNS_API_KEY"),
-        profile=os.getenv("NEXTDNS_PROFILE"),
+        api_key=env_value("NEXTDNS_API_KEY"),
+        profile=env_value("NEXTDNS_PROFILE"),
     )
 
     start_http_server(port=EXPORTER_PORT, addr="0.0.0.0")
